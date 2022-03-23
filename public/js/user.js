@@ -12,7 +12,7 @@ let localMediaStream
 document.querySelector('#user_join_btn').addEventListener('click', () => {
   console.log('join to channel', '47819WarmPlum')
   signalingSocket.emit('join', {
-    channel: '47819WarmPlum',
+    channel: '93057BlueSock1520WhiteDog',
     peer_info: {
       detectRTCversion: '1.4.1',
       isWebRTCSupported: true,
@@ -287,7 +287,9 @@ function handleIceCandidate(config) {
   console.log('user먼저 접속 테스트에서는 ice candidate exchange가 되나?')
   let peer_id = config.peer_id
   let ice_candidate = config.ice_candidate
-  console.log('이 peer는 상대편 peer인 걸까? 아니면 사용자 peer인 걸까? 누가 먼저지?')
+  console.log(
+    '이 peer는 상대편 peer인 걸까? 아니면 사용자 peer인 걸까? 누가 먼저지?',
+  )
   console.log(peer_id) // 상대편
   console.log(ice_candidate) // 뭔가 정보가 있음 = streamer가 ice layer를 최초로 build start하는 것이 맞음.
   // https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate

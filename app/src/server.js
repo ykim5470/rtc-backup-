@@ -426,18 +426,8 @@ io.sockets.on('connect', (socket) => {
     }
     log.debug('connected peers grp by roomId', peers)
 
-    // // "host" peer should create offer
-    // if (peer_role === 'host') {
-    //   console.log('==== This one is host addPeer start')
-    //   HostAddPeerTo(channel)
-    // } else {
-    //   // "user" peer shouldn't create offer
-    //   console.log('==== This one is user addPeer start')
-    //   UserAddPeerTo(channel)
-    // }
     addPeerTo(channel)
 
-    // addPeerTo(channel)
     channels[channel][socket.id] = socket
     socket.channels[channel] = channel
   })
@@ -448,36 +438,47 @@ io.sockets.on('connect', (socket) => {
    */
   function addPeerTo(channel) {
     // console.log(channels)
+    // console.log(channel) // room name aka. 47819WarmPlum
+    // console.log(channels) // A만 들어왔을 경우 {} B가 들어왔을 경우 {A}
+    let host_socket_obj = channels[channel]
+    let host_socket_id = Object.keys(host_socket_obj)[0]
+    let host_socket_instance = host_socket_obj[host_socket_id]
 
-    // let host_socket_obj = Object.values(channels)[0]
-    // console.log(host_socket_obj)
-    // let host_socket_obj_value = Object.values(host_socket_obj)
-    // console.log(host_socket_obj_value)
-    // console.log('=============')
-    for (let id in channels[channel]) {
-      // offer false
-      channels[channel][id].emit('addPeer', {
+    if (host_socket_instance !== undefined) {
+      // host offer
+      host_socket_instance.emit('addPeer', {
         peer_id: socket.id,
-        peers: peers[channel],
-        should_create_offer: false,
-        iceServers: iceServers,
-      })
-      // // Host offer true
-      // host_socket_obj_value[0].emit('addPeer', {
-      //   peer_id: host_socket_obj_value[0].id,
-      //   peers: peers[channel],
-      //   should_create_offer: true,
-      //   iceServers: iceServers,
-      // })
-      // offer true
-      socket.emit('addPeer', {
-        peer_id: id,
         peers: peers[channel],
         should_create_offer: true,
         iceServers: iceServers,
       })
-      log.debug('[' + socket.id + '] emit addPeer [' + id + ']')
+      // user offer
+      socket.emit('addPeer', {
+        peer_id: host_socket_id,
+        peers: peers[channel],
+        should_create_offer: false,
+        iceServers: iceServers,
+      })
     }
+
+    // for (let id in channels[channel]) {
+    //   // offer false
+    //   channels[channel][id].emit('addPeer', {
+    //     peer_id: socket.id,
+    //     peers: peers[channel],
+    //     should_create_offer: false,
+    //     iceServers: iceServers,
+    //   })
+
+    //   // offer true
+    //   socket.emit('addPeer', {
+    //     peer_id: id,
+    //     peers: peers[channel],
+    //     should_create_offer: true,
+    //     iceServers: iceServers,
+    //   })
+    //   log.debug('[' + socket.id + '] emit addPeer [' + id + ']')
+    // }
   }
 
   /**
