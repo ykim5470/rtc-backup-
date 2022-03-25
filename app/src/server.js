@@ -283,7 +283,17 @@ app.get('*', function (req, res) {
  * Check the functionality of STUN/TURN servers:
  * https://webrtc.github.io/samples/src/content/peerconnection/trickle-ice/
  */
-const iceServers = [{ urls: 'stun:stun.l.google.com:19302' }]
+const iceServers = [
+  {
+    urls: [
+      'stun:stun.l.google.com:19302',
+      'stun:stun1.l.google.com:19302',
+      'stun:stun2.l.google.com:19302',
+      'stun:stun3.l.google.com:19302',
+      'stun:stun4.l.google.com:19302',
+    ],
+  },
+]
 
 if (turnEnabled == 'true') {
   iceServers.push({
@@ -419,7 +429,7 @@ io.sockets.on('connect', (socket) => {
     peers[channel][socket.id] = {
       peer_name: peer_name,
       peer_role: peer_role,
-      peer_video: peer_video,
+      peerdeo: peer_video,
       peer_audio: peer_audio,
       peer_hand: peer_hand,
       peer_rec: peer_rec,

@@ -125,7 +125,17 @@ let fileDataChannels = {} // keep track of our peer file sharing data channels
 let peerMediaElements = {} // keep track of our peer <video> tags, indexed by peer_id
 let chatMessages = [] // collect chat messages to save it later if want
 let transcripts = [] //collect all the transcripts to save it later if you need
-let backupIceServers = [{ urls: 'stun:stun.l.google.com:19302' }] // backup iceServers
+let backupIceServers = [
+  {
+    urls: [
+      'stun:stun.l.google.com:19302',
+      'stun:stun1.l.google.com:19302',
+      'stun:stun2.l.google.com:19302',
+      'stun:stun3.l.google.com:19302',
+      'stun:stun4.l.google.com:19302',
+    ],
+  },
+] // backup iceServers
 let countTime // conference count time
 // init audio-video
 let initAudioBtn
